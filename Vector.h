@@ -2,12 +2,14 @@
 #define VECTOR_H
 
 #include <stdexcept>
-#include <utility>
-#include <algorithm>
 #include <random>
 #include <iostream>
 #include <memory>
 #include <iterator>
+#include <utility>
+#include <deque>
+#include <algorithm>
+#include <vector>
 
 
 template<class T>
@@ -114,7 +116,8 @@ public:
     void insert(iterator position, const_iterator first, const_iterator last);
     void clear();
     void erase(const_iterator position);
-    void erase(const_iterator first, const_iterator last);
+    //void erase(const_iterator first, const_iterator last);
+    iterator erase(iterator first, iterator last);
     void resize(size_type n, const value_type& val);
     void resize(size_type n);
     void swap(Vector<T> &v);
@@ -320,12 +323,26 @@ void Vector<T>::erase(Vector<T>::const_iterator position) {
     avail = new_avail;
 }
 
-template<typename T>
-void Vector<T>::erase(Vector<T>::const_iterator first, const_iterator last) {
+/*template<typename T>
+void Vector<T>::erase(Vector<T>::const_iterator first, Vector<T>::const_iterator last) {
     if (first < itt || last > avail)
         throw std::out_of_range{"Out of bounds! (Vector::erase)"};
     iterator new_avail = std::move(last, avail, first);
     avail = new_avail;
+}*/
+
+template<typename T>
+typename Vector<T>::iterator Vector<T>::erase(iterator first, iterator last) 
+{
+    int i = 0;
+    int temp = 0;
+    auto it = (*this).begin();
+    for (it; it != first; it++, i++);
+    for (it = first; it != last; it++, temp++, i++);
+    for (auto it = last; it != (*this).end(); it++, i++)
+        itt[i - temp] = itt[i];
+    avail -= temp;
+    return last;
 }
 
 template<typename T>
