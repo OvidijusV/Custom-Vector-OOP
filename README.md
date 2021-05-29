@@ -9,6 +9,7 @@
 
 **Konteinerių atminties perskirstymai
 
-| -------------  |100000000 |
+|                | 100000000|
+| -------------  |----------|
 | **std::vector**| 13       |
 | **Vector**     | 27       |
